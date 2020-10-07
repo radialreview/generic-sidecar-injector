@@ -3,9 +3,8 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-appname: kaas-webhook
 image:
-  repository: nginx
+  repository: sidecarinjector
   tag: stable
   pullPolicy: IfNotPresent
 
@@ -13,10 +12,12 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-keymakerclient:
-  image: some-client
-  tag: 73
-  pullPolicy: Always
+newrelic:
+  repository: newrelic/newrelic-fluentd-docker
+  tag: sha256:b16fbbb1071fdb4497acc8f2f90bba7fc26e08705e78032e73d675b1aec08921
+  pullPolicy: IfNotPresent
+  apikey: ""
+  baseuri: "https://log-api.newrelic.com/log/v1"
 
 service:
   type: ClusterIP

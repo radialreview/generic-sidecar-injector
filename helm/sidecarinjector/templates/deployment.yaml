@@ -32,22 +32,25 @@ spec:
             - --port={{ .Values.service.targetPort }}
             - --sidecar-config-file=/etc/webhook/config/sidecarconfig.yaml
             - --mutation-config-file=/etc/webhook/config/mutationconfig.yaml
-            - --cert-file-path=/etc/identity/server/certificates/server.pem
-            - --key-file-path=/etc/identity/server/keys/server-key.pem
+            - --cert-file-path=/etc/webhook/tls/tls.crt
+            - --key-file-path=/etc/identity/tls/tls.key
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: tls
+              mountPath: "/etc/webhook/tls"
+              readOnly: true
+      volumes:
+        - name: tls
+          secret:
+            secretName: {{ include "sidecarinjector.fullname" . }}-tls
+        - name: webhook-config
+          configMap:
+            name: {{ include "sidecarinjector.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -60,7 +63,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      volumes:
-        - configMap:
-            name: {{ .Values.appname }}-webhook-configmap
-          name: webhook-config

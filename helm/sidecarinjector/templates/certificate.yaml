@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "sidecarinjector.fullname" . }}
+spec:
+  secretName: {{ include "sidecarinjector.fullname" . }}-tls
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  commonName: {{ include "sidecarinjector.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  dnsNames: 
+    - {{ include "sidecarinjector.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+    - {{ include "sidecarinjector.fullname" . }}.{{ .Release.Namespace }}
+    - {{ include "sidecarinjector.fullname" . }}
+  privateKey:
+    rotationPolicy: Always
+  issuerRef:
+    name: selfsigned-issuer

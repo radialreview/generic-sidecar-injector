@@ -2,27 +2,18 @@
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: MutatingWebhookConfiguration
 metadata:
-  name: {{ .Values.appname }}-webhook-cfg
-  namespace: {{ .Values.namespace }}
+  name: {{ include "sidecarinjector.fullname" . }}
+  labels:
+    {{ include "sidecarinjector.labels" . | indent 4 }}
 webhooks:
   - clientConfig:
       caBundle: {{ .Values.caBundle }} 
       service:
-        name: {{ .Values.appname }}
+        name: {{ include "sidecarinjector.fullname" . }}
         namespace: {{ .Values.namespace }}
         path: /mutate
     failurePolicy: Fail
-    name: {{ .Values.appname }}.sfdc.internal
-    namespaceSelector:
-      matchExpressions:
-        - key: kaas-injection
-          operator: NotIn
-          values:
-            - {{ .Values.enablekaas }}
-        - key: kaas-injection
-          operator: In
-          values:
-            - {{ .Values.enablesidecar }}
+    name: {{ include "sidecarinjector.fullname" . }}
     rules:
       - apiGroups:
           - ""
