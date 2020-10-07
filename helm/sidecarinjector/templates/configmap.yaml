@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "sidecarinjector.fullname" . }}
   labels:
-    {{ include "sidecarinjector.labels" . | indent 4 }}
+{{ include "sidecarinjector.labels" . | indent 4 }}
 data:
   sidecarconfig.yaml: |
     containers:
@@ -20,7 +20,7 @@ data:
   mutationconfig.yaml: |
     mutationConfigs:
       - name: "fluentd"
-        annotationNamespace: "k8s.meetings.io"
+        annotationNamespace: "fluentd.k8s.meetings.io"
         annotationTrigger: "inject"
         containers: ["fluentd"]
         ignoreNamespaces: []

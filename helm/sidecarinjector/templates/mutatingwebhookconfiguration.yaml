@@ -4,10 +4,10 @@ kind: MutatingWebhookConfiguration
 metadata:
   name: {{ include "sidecarinjector.fullname" . }}
   labels:
-    {{ include "sidecarinjector.labels" . | indent 4 }}
+{{ include "sidecarinjector.labels" . | indent 4 }}
 webhooks:
   - clientConfig:
-      caBundle: {{ .Values.caBundle }} 
+      caBundle: ""
       service:
         name: {{ include "sidecarinjector.fullname" . }}
         namespace: {{ .Values.namespace }}

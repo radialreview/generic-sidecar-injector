@@ -2,6 +2,8 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ include "sidecarinjector.fullname" . }}
+  labels:
+{{ include "sidecarinjector.labels" . | indent 4 }}
 spec:
   secretName: {{ include "sidecarinjector.fullname" . }}-tls
   duration: 2160h # 90d
