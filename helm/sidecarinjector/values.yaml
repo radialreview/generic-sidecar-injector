@@ -12,9 +12,11 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-newrelic:
+fluentd:
   repository: newrelic/newrelic-fluentd-docker
   tag: sha256:b16fbbb1071fdb4497acc8f2f90bba7fc26e08705e78032e73d675b1aec08921
+
+newrelic:
   pullPolicy: IfNotPresent
   apikey: ""
   baseuri: "https://log-api.newrelic.com/log/v1"
