@@ -12,8 +12,13 @@ webhooks:
         name: {{ include "sidecarinjector.fullname" . }}
         namespace: {{ .Release.Namespace }}
         path: /mutate
-    failurePolicy: Fail
+    failurePolicy: Ignore
     name: {{ include "sidecarinjector.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+    namespaceSelector:
+      matchExpressions:
+        - key: inject-fluentd
+          operator: In
+          values: ["true", "1"]
     rules:
       - apiGroups:
           - ""
@@ -23,3 +28,4 @@ webhooks:
           - CREATE
         resources:
           - pods
+        scope: "Namespaced"
