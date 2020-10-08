@@ -16,4 +16,5 @@ spec:
   privateKey:
     rotationPolicy: Always
   issuerRef:
-    name: selfsigned-issuer
+    name: {{ include "sidecarinjector.fullname" . }}-selfsigned
+    kind: Issuer
