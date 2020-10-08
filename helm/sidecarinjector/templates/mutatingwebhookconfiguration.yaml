@@ -13,7 +13,7 @@ webhooks:
         namespace: {{ .Release.Namespace }}
         path: /mutate
     failurePolicy: Fail
-    name: {{ include "sidecarinjector.fullname" . }}
+    name: {{ include "sidecarinjector.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
     rules:
       - apiGroups:
           - ""
