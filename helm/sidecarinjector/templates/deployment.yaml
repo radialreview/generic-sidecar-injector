@@ -28,12 +28,12 @@ spec:
             - mountPath: /etc/webhook/config
               name: webhook-config
           args:
-            - /sidecarinjector/sidecarinjector
+            - /sidecarinjector
             - --port={{ .Values.service.targetPort }}
             - --sidecar-config-file=/etc/webhook/config/sidecarconfig.yaml
             - --mutation-config-file=/etc/webhook/config/mutationconfig.yaml
             - --cert-file-path=/etc/webhook/tls/tls.crt
-            - --key-file-path=/etc/identity/tls/tls.key
+            - --key-file-path=/etc/webhook/tls/tls.key
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
