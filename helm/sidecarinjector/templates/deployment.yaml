@@ -24,9 +24,6 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          volumeMounts:
-            - mountPath: /etc/webhook/config
-              name: webhook-config
           args:
             - /sidecarinjector
             - --port={{ .Values.service.targetPort }}
@@ -43,6 +40,9 @@ spec:
           volumeMounts:
             - name: tls
               mountPath: "/etc/webhook/tls"
+              readOnly: true
+            - name: webhook-config
+              mountPath: /etc/webhook/config
               readOnly: true
       volumes:
         - name: tls
