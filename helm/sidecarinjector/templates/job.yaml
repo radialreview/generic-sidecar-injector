@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: {{ include "sidecarinjector.fullname" . }}
   labels:
-    {{ include "sidecarinjector.labels" . | indent 4 }}
+{{ include "sidecarinjector.labels" . | indent 4 }}
   annotations:
     "helm.sh/hook": post-install
     "helm.sh/hook-weight": "-5"
