@@ -10,8 +10,6 @@ rules:
     - v1
     resources:
     - secret
-    resourceNames:
-    - {{ include "sidecarinjector.fullname" . }}-tls
     verbs:
     - create
     - get
