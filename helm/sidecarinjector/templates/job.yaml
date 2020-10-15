@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "sidecarinjector.fullname" . }}
+  labels:
+    {{ include "sidecarinjector.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "sidecarinjector.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      restartPolicy: Never
+      serviceAccountName: {{ include "sidecarinjector.serviceAccountName" . }}
+      containers:
+      - name: generate-certificate
+        image: {{ .Values.certjob.repository }}:{{ .Values.certjob.tag }}
+        command:
+          - ./generate_certificate.sh
+          - --webhook-kind
+          - MutatingWebhookConfiguration
+          - --service
+          - {{ include "sidecarinjector.fullname" . }}
+          - --webhook
+          - {{ include "sidecarinjector.fullname" . }}
+          - --secret
+          - {{ include "sidecarinjector.fullname" . }}-tls
+          - --namespace
+          - {{ .Release.Namespace }}

@@ -1,0 +1,43 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "sidecarinjector.fullname" . }}-csr
+  labels:
+{{- include "sidecarinjector.labels" . | nindent 4 }}
+rules:
+  # generate csr requests
+  - apiGroups:
+    - certificates.k8s.io
+    resources:
+    - certificatesigningrequests
+    verbs:
+    - create
+    - get
+    - list
+    - watch
+    - update
+    - patch
+    - delete
+  # approve csr requests
+  - apiGroups:
+    - certificates.k8s.io
+    resources:
+    - certificatesigningrequests/approval
+    verbs:
+    - update
+  - apiGroups:
+    - certificates.k8s.io
+    resources:
+    - signers
+    verbs:
+    - approve
+  # patch/update webhooks
+  - apiGroups:
+    - admissionregistration.k8s.io/v1
+    resources:
+    - mutatingwebhookconfiguration
+    resourceNames:
+    - {{ include "sidecarinjector.fullname" . }}
+    verbs:
+    - update
+    - patch

@@ -1,0 +1,20 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "sidecarinjector.fullname" . }}
+  labels:
+{{- include "sidecarinjector.labels" . | nindent 4 }}
+rules:
+  # csr request
+  - apiGroups:
+    - v1
+    resources:
+    - secret
+    resourceNames:
+    - {{ include "sidecarinjector.fullname" . }}-tls
+    verbs:
+    - create
+    - get
+    - update
+    - patch
+    - delete
