@@ -11,3 +11,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: {{ include "sidecarinjector.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
