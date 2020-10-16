@@ -6,8 +6,7 @@ metadata:
 {{- include "sidecarinjector.labels" . | nindent 4 }}
 rules:
   # csr request
-  - apiGroups:
-    - v1
+  - apiGroups: [""]
     resources:
     - secret
     verbs:
