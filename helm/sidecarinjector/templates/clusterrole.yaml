@@ -39,5 +39,6 @@ rules:
     resourceNames:
     - {{ include "sidecarinjector.fullname" . }}
     verbs:
+    - get
     - update
     - patch
