@@ -8,7 +8,7 @@ rules:
   # csr request
   - apiGroups: [""]
     resources:
-    - secret
+    - secrets
     verbs:
     - create
     - get
