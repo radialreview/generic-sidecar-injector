@@ -8,7 +8,7 @@ data:
   sidecarconfig.yaml: |
     containers:
       - name: fluentd
-        image: {{ .Values.fluentd.repository }}:{{ .Values.fluentd.tag }}
+        image: {{ .Values.fluentd.repository }}@{{ .Values.fluentd.hash }}
         imagePullPolicy: {{ .Values.fluentd.pullPolicy }}
         env:
           - name: API_KEY
