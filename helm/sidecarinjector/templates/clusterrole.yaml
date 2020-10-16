@@ -35,7 +35,7 @@ rules:
   - apiGroups:
     - admissionregistration.k8s.io
     resources:
-    - mutatingwebhookconfiguration
+    - mutatingwebhookconfigurations
     resourceNames:
     - {{ include "sidecarinjector.fullname" . }}
     verbs:
