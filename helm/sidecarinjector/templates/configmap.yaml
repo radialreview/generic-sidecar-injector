@@ -8,7 +8,7 @@ data:
   sidecarconfig.yaml: |
     containers:
       - name: fluentd
-        image: {{ .Values.fluentd.repository }}@{{ .Values.fluentd.hash }}
+        image: {{ .Values.fluentd.repository }}:{{ .Values.fluentd.tag }}
         imagePullPolicy: {{ .Values.fluentd.pullPolicy }}
         env:
           - name: API_KEY
@@ -17,11 +17,22 @@ data:
             value: {{ .Values.newrelic.baseuri }}
           - name: LOG_LEVEL
             value: debug
+        volumeMounts:
+          - name: logs
+            mountPath: /var/log/application/
+    volumes:
+      - emptyDir: {}
+        name: logs
+    volumeMounts:
+      - name: logs
+        mountPath: /var/log/application/
   mutationconfig.yaml: |
     mutationConfigs:
       - name: "fluentd"
         annotationNamespace: "fluentd.k8s.meetings.io"
         annotationTrigger: "inject"
         containers: ["fluentd"]
+        volumeMounts: ["logs"]
+        volumes: ["logs"]
         ignoreNamespaces: []
         whitelistNamespaces: []

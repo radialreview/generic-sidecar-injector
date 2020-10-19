@@ -14,7 +14,7 @@ fullnameOverride: ""
 
 fluentd:
   repository: newrelic/newrelic-fluentd-docker
-  hash: sha256:b16fbbb1071fdb4497acc8f2f90bba7fc26e08705e78032e73d675b1aec08921
+  tag: latest
   pullPolicy: IfNotPresent
 
 newrelic:
