@@ -17,6 +17,13 @@ data:
             value: {{ .Values.newrelic.baseuri }}
           - name: LOG_LEVEL
             value: debug
+        resources
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
         volumeMounts:
           - name: logs
             mountPath: /var/log/application/
